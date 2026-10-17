@@ -19,8 +19,7 @@
 @keyframes mcRing{0%{opacity:0;transform:rotate(-25deg) scale(.8)}35%{opacity:.95}100%{opacity:.15;transform:rotate(55deg) scale(1.08)}}
 @keyframes mcGlint{0%{opacity:0;transform:rotate(-40deg)}25%{opacity:1}75%{opacity:.75}100%{opacity:.12;transform:rotate(320deg)}}
 @keyframes mcIntroExit{0%{opacity:1;visibility:visible}75%{opacity:1}100%{opacity:0;visibility:hidden}}
-@media(prefers-reduced-motion:reduce){#mc-intro{display:none!important}}
-<style>
+@media(prefers-reduced-motion:reduce){#mc-intro{display:none!important}}<style>
 :root{--cream:#FFF8F0;--pink:#F3D8D8;--terra:#B96850;--brown:#59382F;--gold:#C6A15B;--line:rgba(89,56,47,.14);box-sizing:border-box}
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -223,8 +222,7 @@ body.open #ov{opacity:1;visibility:visible}body.open #drawer{transform:none;visi
     intro.remove();
   }, {once:true});
   window.setTimeout(()=>intro.remove(), 5200);
-})();
-<script>
+})();<script>
 /* ===== CONFIG (edit here) ===== */
 const CFG={wa:'0915971564',cc:'218'}; // WhatsApp recipient (temporary: café number; replace with delivery person's number later)
 const waNum=n=>{n=String(n).replace(/\D/g,'');return n.startsWith(CFG.cc)?n:CFG.cc+n.replace(/^0+/,'')}; // 0915971564 -> 218915971564
