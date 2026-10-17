@@ -5,7 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Miss Cake | ميس كيك</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;600&family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;600&family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">/* Miss Cake cinematic intro: layered peach circular reveal */
+#mc-intro{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;overflow:hidden;background:#FFF8F0;isolation:isolate;pointer-events:none;animation:mcIntroExit .8s 4.25s ease forwards}
+#mc-intro .mc-wash{position:absolute;inset:-35%;background:radial-gradient(ellipse at 50% 45%,#fff8f0 0 16%,#f3d8d8 45%,#e9b9b5 72%,#b96850 100%);transform:scale(.25);border-radius:50%;animation:mcWash 2.1s .12s cubic-bezier(.2,.7,.2,1) forwards}
+#mc-intro .mc-orb{position:absolute;width:min(130vw,1200px);aspect-ratio:1;border-radius:50%;background:linear-gradient(145deg,#f8e4df 5%,#efc6c1 45%,#b96850 100%);box-shadow:inset -30px -40px 90px #9d5145;transform:scale(.02);animation:mcOrb 1.65s .35s cubic-bezier(.16,.8,.25,1) forwards}
+#mc-intro .mc-logo-wrap{position:relative;z-index:2;width:min(84vw,540px);opacity:0;transform:translateY(18px) scale(.94);animation:mcLogoIn .9s 1.1s cubic-bezier(.2,.75,.2,1) forwards}
+#mc-intro .mc-logo{display:block;width:100%;height:auto;filter:drop-shadow(0 14px 20px rgba(89,56,47,.15));border-radius:2px}
+#mc-intro .mc-ring{position:absolute;inset:-12%;border:1px solid rgba(198,161,91,.9);border-radius:50%;opacity:0;transform:rotate(-25deg) scale(.8);animation:mcRing 1.5s .8s ease-out forwards}
+#mc-intro .mc-glint{position:absolute;inset:-8%;border-radius:50%;background:conic-gradient(from 20deg,transparent 0 68%,rgba(255,244,205,.0) 73%,rgba(255,245,208,.9) 76%,rgba(198,161,91,.0) 80% 100%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1px));mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1px));opacity:0;animation:mcGlint 1.4s 1.15s ease-in-out forwards}
+@keyframes mcWash{0%{transform:scale(.25);opacity:.5}55%{transform:scale(1.15);opacity:1}100%{transform:scale(1.5);opacity:.9}}
+@keyframes mcOrb{0%{transform:scale(.02);opacity:.4}65%{transform:scale(1.03);opacity:1}100%{transform:scale(1);opacity:1}}
+@keyframes mcLogoIn{to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes mcRing{0%{opacity:0;transform:rotate(-25deg) scale(.8)}35%{opacity:.95}100%{opacity:.15;transform:rotate(55deg) scale(1.08)}}
+@keyframes mcGlint{0%{opacity:0;transform:rotate(-40deg)}25%{opacity:1}75%{opacity:.75}100%{opacity:.12;transform:rotate(320deg)}}
+@keyframes mcIntroExit{0%{opacity:1;visibility:visible}75%{opacity:1}100%{opacity:0;visibility:hidden}}
+@media(prefers-reduced-motion:reduce){#mc-intro{display:none!important}}
 <style>
 :root{--cream:#FFF8F0;--pink:#F3D8D8;--terra:#B96850;--brown:#59382F;--gold:#C6A15B;--line:rgba(89,56,47,.14);box-sizing:border-box}
 *,*::before,*::after{box-sizing:inherit}
@@ -193,7 +207,23 @@ body.open #ov{opacity:1;visibility:visible}body.open #drawer{transform:none;visi
  </div>
 </aside>
 <div id="toast" role="status" aria-live="polite"></div>
-
+/* One-time branded intro. Logo asset must be available at ./miss-cake-logo.jpeg */
+(function addMissCakeIntro(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  try { if (sessionStorage.getItem('mc_intro_seen') === '1') return; } catch(e) {}
+  const intro = document.createElement('div');
+  intro.id = 'mc-intro';
+  intro.setAttribute('aria-label', 'Miss Cake');
+  intro.innerHTML = '<div class="mc-wash" aria-hidden="true"></div><div class="mc-orb" aria-hidden="true"></div><div class="mc-logo-wrap"><div class="mc-ring" aria-hidden="true"></div><div class="mc-glint" aria-hidden="true"></div><img class="mc-logo" src="./miss-cake-logo.jpeg" alt="Miss Cake — Since 2017"></div>';
+  document.body.appendChild(intro);
+  try { sessionStorage.setItem('mc_intro_seen','1'); } catch(e) {}
+  const logo = intro.querySelector('img');
+  logo.addEventListener('error', function(){
+    /* Keep the page usable if the logo asset has not been uploaded yet. */
+    intro.remove();
+  }, {once:true});
+  window.setTimeout(()=>intro.remove(), 5200);
+})();
 <script>
 /* ===== CONFIG (edit here) ===== */
 const CFG={wa:'0915971564',cc:'218'}; // WhatsApp recipient (temporary: café number; replace with delivery person's number later)
